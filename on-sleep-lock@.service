@@ -1,0 +1,36 @@
+# /etc/systemd/system/on-sleep-lock@.service
+#
+# Tom Wizetek 2023-04-30
+# Runs *before* system sleep/suspend
+# NOTE: Execute 'systemctl daemon-reload' after any changes to the unit
+
+[Unit]
+Description=Screenlock on system sleep
+
+# Before 'sleep' - NOT 'suspend' because the latter is executed asynchronously, so it will not wait to complete
+Before=sleep.target
+
+[Service]
+Type=forking
+User=%I
+
+# DISPLAY var is needed for X stuff
+Environment="DISPLAY=:0"
+# TODO: Get vars from user env instead of hardcoding
+
+# Release grab from 'xlock -nolock' if it is running
+ExecStartPre=xautolock -unlocknow
+
+# Start locker
+# Process must be able to fork!
+# 'sh' is necessary to handle subshell for 'shuf'
+ExecStart=sh -c 'i3lock -f -c 202020 -i $(shuf -n 1 -e /usr/local/backgrounds/*.png)'
+
+# Give locker time to run instead of immediately going to sleep and risking showing the desktop after waking
+ExecStartPost=sleep 1
+
+[Install]
+WantedBy=suspend.target
+#WantedBy=sleep.target
+
+##
