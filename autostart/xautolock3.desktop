@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=xautolock3-suspend
+Comment=Suspend while locked after waking from sleep - starts in disabled state
+Exec=sh -c "xautolock3 -time 3 -detectsleep -locker 'systemctl suspend' & xautolock3 -disable"
