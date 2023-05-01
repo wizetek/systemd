@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# Tom Wizetek 2023-04-30
+# Called from /etc/systemd/system/on-wake-lock@.service
+
+export DISPLAY=:0
+
+# Power off display after a short delay while screen is locked
+xset dpms 0 0 60
+
+# Suspend system after a short timeout if screen remains unlocked
+#
+# == Option A ==
+# First, try to exit any previous instance, in case it is running
+# (This will fork)
+#xautolock3 -exit
+# TODO: Check if this is even needed
+#
+# (This will not fork, so it needs to be put in background)
+# TODO: None of this is working!
+#xautolock3 -time 3 -locker 'systemctl suspend' &
+#xautolock3 -time 3 -locker 'systemctl suspend' & disown
+#setsid xautolock3 -time 3 -locker 'systemctl suspend' &
+#xidle -timeout 180 -program '/usr/bin/systemctl suspend' &
+#
+# == Option B ==
+# 'xautolock3' is started elsewhere first, then run again with '-disable', and finally enabled here
+xautolock3 -enable
+
+# Loop until locker exits
+while [[ $(pgrep -u $UID -x i3lock) ]]; do sleep 5; done
+
+# Reset display poweroff back to longer timeout
+xset dpms 0 0 600
+
+# Re-enable screensaver in case it was previously disabled
+xautolock -enable
+
+# Disable auto-suspend with short timeout that was used only when locked
+#
+# == Option A ==
+#xautolock3 -exit
+# TODO: Check if this is needed because when the systemd unit stops, this process will terminate too
+#
+# == Option B ==
+# Timer gets disabled but the process will continue to run
+xautolock3 -disable
+
+##
