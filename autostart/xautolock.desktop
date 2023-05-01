@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=xautolock-nolock
+Comment=Screensaver nolock
+Exec=xautolock -time 5 -detectsleep -locker "xlock -nolock -mode random -duration 60 -erasedelay 0"
