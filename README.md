@@ -8,3 +8,9 @@
 * After unlocking:
   * Reset DPMS to longer
   * Disable the short suspend
+
+To run multiple `xautolock` instances, create symlinks:
+
+xautolock2 -> xautolock<br>
+xautolock3 -> xautolock<br>
+etc.
