@@ -1,0 +1,21 @@
+# /etc/systemd/system/on-wake-lock@.service
+#
+# Tom Wizetek 2023-04-30
+# Runs *after* system wake/resume from sleep/suspend
+# NOTE: Execute 'systemctl daemon-reload' after any changes to the unit
+
+[Unit]
+Description=Post-screenlock actions after waking from sleep
+After=suspend.target
+#After=sleep.target
+
+[Service]
+Type=simple
+User=%I
+ExecStart=/usr/local/bin/on-wake-lock
+
+[Install]
+WantedBy=suspend.target
+#WantedBy=sleep.target
+
+##
