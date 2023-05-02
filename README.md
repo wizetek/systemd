@@ -14,12 +14,12 @@ To run multiple `xautolock` instances, create symlinks:
 xautolock2 -> xautolock
 xautolock3 -> xautolock
 ```
-Enable both services:
+Place the units in `/etc/systemd/system/` and enable both services:
 ```
 $ systemctl enable on-sleep-lock@yourusername.service
 $ systemctl enable on-wake-lock@yourusername.service
 ```
-Make the shell script executable:
+Put the shell script in `/usr/local/bin/` and make it executable:
 ```
 $ chmod +x on-wake-lock
 ```
