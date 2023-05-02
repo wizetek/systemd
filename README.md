@@ -1,10 +1,10 @@
 # Lock on sleep
-* Run `i3lock` before system sleep
-* Wait to show the lock screen in order to prevent briefly flashing the desktop later
-* (Sleep/suspend, then wake/resume)
-* If not unlocked:
-  * Turn off display after 1 minute of idle time
-  * Suspend the system after 3 minutes of inactivity
+* Before sleep/suspend:
+  * Run `i3lock`
+  * Wait to show the lock screen in order to prevent briefly flashing the desktop later (for security)
+* After wake/resume, if not unlocked:
+  * Turn off display after very short idle time (1 minute)
+  * Suspend the system after inactivity (3 minutes)
 * After unlocking:
   * Reset DPMS to a longer delay (10 minutes)
   * Disable the short suspend timeout
